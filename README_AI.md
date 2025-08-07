@@ -17,19 +17,35 @@
 - **Dobot/**: 机械臂相关脚本, 通过串口或SDK控制Dobot完成取放动作。
 - **utils/**: 通用工具库, 包含按键监听、YAML读写等辅助函数。
 
-## 2. ROS话题与消息交互
+## 2. ROS话题与服务
 
-| 脚本 | 发布话题 | 订阅话题 | 消息类型 | 说明 |
-|------|----------|----------|----------|------|
-| Nav_Api.py | `/move_base/goal` | `robot_pose` (同步调用) | `MoveBaseActionGoal` / `Pose` | 设置导航目标, 同步获取位姿 |
-| Nav_Api.py | `/move_base/cancel` | `/move_base/status` | `GoalID` / `GoalStatusArray` | 取消导航, 查询导航状态 |
-| robot_correct_position.py | `/initialpose` | (无) | `PoseWithCovarianceStamped` | 将当前或指定位姿发布到AMCL进行姿态修正 |
-| robot_move_distance.py | `/cmd_vel` | TF (`/odom_combined` -> `/base_footprint`) | `Twist` | 控制底盘线速度, TF用于估算位移 |
-| QRcode_scan.py | (无) | `/usb_cam/image_raw` | `Image` | 订阅摄像头图像, 解析二维码 |
-| yaml_position_recorder.py | (无) | `robot_pose` | `Pose` | 同步获取当前位姿存储 |
-| yaml_box_delivery.py | 复用Nav_Api和robot_correct_position中的话题 | 复用 |  | 完整配送流程 |
+### 2.1 话题
+
+| 脚本 | 发布话题 | 订阅/等待话题 | 消息类型 | 说明 |
+|------|----------|---------------|----------|------|
+| Nav_Api.py | `/move_base/goal`, `/move_base/cancel` | `robot_pose`, `/move_base/status` | `MoveBaseActionGoal`, `GoalID`, `Pose`, `GoalStatusArray` | 设置导航目标、取消目标并查询状态 |
+| robot_correct_position.py | `/initialpose` | — | `PoseWithCovarianceStamped` | 将当前或指定位姿发布到AMCL进行姿态修正 |
+| robot_move_distance.py | `/cmd_vel` | TF:`/odom_combined`→`/base_footprint` | `Twist` | 控制底盘线速度, 通过TF估算位移 |
+| QRcode_scan.py | — | `/usb_cam/image_raw` | `Image` | 订阅摄像头图像并解析二维码 |
+| test/check_linear_imu.py | `/cmd_vel` | — | `Twist` | 测试底盘线速度 |
+| test/csv_multi_point_nav.py | — | `/move_base/status` | `GoalStatusArray` | 读取导航状态 |
+| old/old_pub_province.py | `/qrcode_info` | `/usb_cam/image_raw` | `String`, `Image` | 发布二维码解码结果 |
+| old/old_QRcode_scan.py | — | `/usb_cam/image_raw` | `Image` | 旧版二维码扫描脚本 |
+| old/old_sub_province.py | — | `/qrcode_info` (等待消息) | `String` | 旧版省份信息订阅 |
 
 除上述话题外, 各脚本还通过`rospy.set_param`与ROS参数服务器交互, 例如设置`/move_base/TebLocalPlannerROS/xy_goal_tolerance`和`/move_base/TebLocalPlannerROS/yaw_goal_tolerance`等导航参数。
+
+### 2.2 服务
+
+| 服务名称 | 服务类型 | 说明 |
+|----------|----------|------|
+| `DobotServer/SetHOMECmd` | `SetHOMECmd` | 机械臂回到零点 |
+| `DobotServer/SetHOMEParams` | `SetHOMEParams` | 设置机械臂零点 |
+| `DobotServer/SetQueuedCmdStartExec` | `SetQueuedCmdStartExec` | 开始执行队列命令 |
+| `DobotServer/GetPose` | `GetPose` | 获取当前机械臂位姿 |
+| `DobotServer/SetPTPCmd` | `SetPTPCmd` | 设置机械臂PTP运动 |
+| `DobotServer/SetEndEffectorSuctionCup` | `SetEndEffectorSuctionCup` | 控制吸盘开关 |
+| `DobotServer/ClearAllAlarmsState` | `ClearAllAlarmsState` | 清除机械臂报警状态 |
 
 ## 3. 关键函数及调用关系
 
