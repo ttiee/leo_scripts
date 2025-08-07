@@ -1,0 +1,35 @@
+global_costmap:
+   # 全局坐标系，通常使用/map作为全局规划的参考坐标系
+   global_frame: /map
+   # 机器人基座坐标系，用于确定机器人在地图中的位置
+   robot_base_frame: /base_footprint
+   # 地图更新频率(Hz)，决定多久更新一次代价地图
+   update_frequency: 1.5
+   # 地图发布频率(Hz)，决定多久发布一次代价地图供显示
+   publish_frequency: 1.0
+   # 是否使用静态地图，true表示使用预先加载的地图
+   static_map: true
+   # 是否使用滚动窗口，false表示固定地图大小，适用于全局规划
+   rolling_window: false
+   # 地图分辨率，单位是米/像素，值越小精度越高但计算量越大
+   resolution: 0.05
+   # 坐标变换的容忍时间(秒)，超过此时间的变换会被忽略
+   transform_tolerance: 1.0
+   # 代价地图类型
+   map_type: costmap
+
+   # 插件配置列表，按顺序加载并应用于代价地图
+   plugins:
+   # 静态层：处理预先加载的静态地图信息
+   - {name: static_layer,        type: "costmap_2d::StaticLayer"}
+   # 障碍物层：处理传感器感知到的动态障碍物
+   - {name: obstacle_layer,      type: "costmap_2d::VoxelLayer"}
+   # 虚拟墙层：添加人为设定的虚拟障碍物
+   - {name: virtualWall_layer,   type: "costmap_2d::VirtualWallLayer"}
+   # 膨胀层：对障碍物进行膨胀处理，确保规划路径与障碍物保持安全距离
+   - {name: inflation_layer,     type: "costmap_2d::InflationLayer"}
+
+# 全局路径规划器参数
+GlobalPlanner:        
+   # 是否允许规划经过未知区域，false表示只在已知区域规划路径
+   allow_unknown: false

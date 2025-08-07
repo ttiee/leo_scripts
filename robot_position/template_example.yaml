@@ -1,0 +1,36 @@
+charging_station:
+  orientation_w: -0.15982306055784956
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: 0.9871456778580971
+  timestamp: 1711676430.0
+  x: 0.24996886344938762
+  y: 1.1788719130963257
+  z: 0.13799999999999998
+desk_1:
+  orientation_w: 1.0
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: 0.0
+  timestamp: 1711676460.0
+  x: 3.0
+  y: 0.0
+  z: 0.0
+desk_2:
+  orientation_w: 1.0
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: 0.0
+  timestamp: 1711676490.0
+  x: 3.0
+  y: 2.0
+  z: 0.0
+home:
+  orientation_w: 1.0
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: 0.0
+  timestamp: 1711676400.0
+  x: 0.0
+  y: 0.0
+  z: 0.0

@@ -1,0 +1,59 @@
+shutdown_costmaps: false  # 关闭代价地图: 当move_base不活动时是否关闭代价地图
+
+controller_frequency: 4.0  # 控制器频率: 局部路径规划器执行的频率，单位为赫兹
+controller_patience: 3.0 # 3.0  # 控制器耐心: 控制器在放弃当前目标之前等待有效控制的时间，单位为秒
+
+planner_frequency: 1.0  # 规划器频率: 全局路径规划器执行的频率，单位为赫兹
+planner_patience: 3.0  # 规划器耐心: 规划器在放弃当前目标之前等待有效规划的时间，单位为秒
+
+oscillation_timeout: 15.0  # 振荡超时: 检测振荡的时间阈值，单位为秒
+oscillation_distance: 0.2  # 振荡距离: 定义振荡的移动距离阈值，单位为米
+
+# 规划器选择
+base_global_planner: "global_planner/GlobalPlanner"  # 全局规划器: 使用的全局路径规划器插件
+base_local_planner: "teb_local_planner/TebLocalPlannerROS"  # 局部规划器: 使用的局部路径规划器插件
+
+max_planning_retries: 1  # 最大规划重试次数: 规划失败时的最大重试次数
+
+recovery_behavior_enabled: true  # 恢复行为启用: 是否启用恢复行为
+clearing_rotation_allowed: true  # 允许清除旋转: 是否允许机器人原地旋转来清除障碍物
+
+useMagnetometer: False  # 使用磁力计: 是否使用磁力计数据来辅助定位
+auto_update_: False  # 自动更新: 是否自动更新机器人位姿
+particle_range: 1.0  # 粒子范围: 粒子滤波器中粒子的分布范围
+angle_tolerance: 0.05  # 角度容差: 角度误差的容忍度，单位为弧度
+
+recovery_behaviors:  # 恢复行为配置: 定义机器人的恢复行为序列
+ #- name: 'conservative_reset'  # 保守重置: 保守地清除代价地图
+  #  type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'aggressive_reset'  # 激进重置: 积极地清除代价地图
+    type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  #- name: 'super_reset'  # 超级重置: 大范围清除代价地图
+   # type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'clearing_rotation'  # 清除旋转: 原地旋转以获取周围环境信息
+    type: 'rotate_recovery/RotateRecovery'
+  #- name: 'move_slow_and_clear'  # 慢速移动并清除: 减速移动并清除障碍物
+    #type: 'move_slow_and_clear/MoveSlowAndClear'
+    
+conservative_reset:  # 保守重置参数
+  reset_distance: 3.0  # 重置距离: 清除代价地图的范围，单位为米
+  #layer_names: [static_layer, obstacle_layer, inflation_layer]  # 层名称: 要清除的代价地图层
+  layer_names: [obstacle_layer]  # 层名称: 要清除的代价地图层
+
+aggressive_reset:  # 激进重置参数
+  reset_distance: 0.3  # 重置距离: 清除代价地图的范围，单位为米
+  #layer_names: [static_layer, obstacle_layer, inflation_layer]  # 层名称: 要清除的代价地图层
+  layer_names: [obstacle_layer]  # 层名称: 要清除的代价地图层
+
+super_reset:  # 超级重置参数
+  reset_distance: 5.0  # 重置距离: 清除代价地图的范围，单位为米
+  #layer_names: [static_layer, obstacle_layer, inflation_layer]  # 层名称: 要清除的代价地图层
+  layer_names: [obstacle_layer]  # 层名称: 要清除的代价地图层
+
+move_slow_and_clear:  # 慢速移动并清除参数
+  clearing_distance: 0.5  # 清除距离: 清除障碍物的距离，单位为米
+  limited_trans_speed: 0.1  # 限制平移速度: 恢复行为中的最大平移速度，单位为米/秒
+  limited_rot_speed: 0.4  # 限制旋转速度: 恢复行为中的最大旋转速度，单位为弧度/秒
+  limited_distance: 0.3  # 限制距离: 使用限制速度的最大距离，单位为米
+
+

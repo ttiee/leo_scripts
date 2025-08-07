@@ -1,0 +1,75 @@
+# 控制器频率：局部路径规划器的执行频率，单位为赫兹，影响机器人路径规划的实时性
+controller_frequency: 3.0
+# 是否启用恢复行为：当机器人被困住时，是否尝试恢复动作（如旋转或后退）
+recovery_behavior_enabled: true
+# 是否允许清除旋转：允许机器人通过原地旋转来尝试清除障碍物
+clearing_rotation_allowed: true
+
+TrajectoryPlannerROS:
+   # 最大前进速度：机器人在X方向上的最大移动速度，单位为米/秒
+   max_vel_x: 0.2 # default: 0.2
+   # 最小前进速度：机器人在X方向上的最小移动速度，防止移动过慢，单位为米/秒
+   min_vel_x: 0.05 # default: 0.05
+   # 最大横向速度：机器人在Y方向上的最大移动速度，对差速驱动机器人设为0
+   max_vel_y: 0.0  # 对于差速驱动机器人设为0
+   # 最小横向速度：机器人在Y方向上的最小移动速度，对差速驱动机器人设为0
+   min_vel_y: 0.0
+   # 最小原地旋转速度：机器人原地旋转时的最小角速度，单位为弧度/秒
+   min_in_place_vel_theta: 0.5
+   # 逃逸速度：当机器人需要后退时使用的速度，单位为米/秒
+   escape_vel: -0.1
+   # X方向加速度限制：机器人在X方向上的最大加速度，单位为米/秒²
+   acc_lim_x: 0.5
+   # Y方向加速度限制：机器人在Y方向上的最大加速度，对差速驱动机器人设为0
+   acc_lim_y: 0.0 # 对于差速驱动机器人设为0
+   # 角加速度限制：机器人旋转时的最大角加速度，单位为弧度/秒²
+   acc_lim_theta: 0.5
+
+   # 是否为全向机器人：差速驱动机器人设为false，全向机器人设为true
+   holonomic_robot: false
+   # 目标偏航角容差：机器人到达目标点时允许的偏航角误差，单位为弧度
+   yaw_goal_tolerance: 0.1 # 约6度
+   # XY平面位置目标容差：机器人到达目标点时允许的XY平面位置误差，单位为米
+   xy_goal_tolerance: 0.1  # 10厘米
+   # 是否锁定XY目标容差：若为true，一旦机器人进入目标区域就停止移动
+   latch_xy_goal_tolerance: false
+   # 路径距离权重：影响机器人对路径的跟随程度，值越大越倾向于跟随路径
+   pdist_scale: 0.4
+   # 目标距离权重：影响机器人对目标点的直接驱动力度，值越大越倾向于直接朝目标点移动
+   gdist_scale: 0.8
+#   pdist_scale: 100
+#   gdist_scale: 0.4
+   # 是否使用米为单位计分：影响路径评分方式，若为true，路径评分以米为单位
+   meter_scoring: true
+
+   # 前视距离：机器人前方的预测长度，用于避障，单位为米
+   heading_lookahead: 0.325
+   # 是否启用航向评分：考虑机器人朝向对路径选择的影响
+   heading_scoring: true
+   # 航向评分时间步长：航向预测的时间长度，单位为秒
+   heading_scoring_timestep: 0.8
+   # 障碍物距离权重：影响机器人避障的重要性，值越大越倾向于避开障碍物
+   occdist_scale: 0.5
+   # 振荡重置距离：当机器人移动这个距离后重置振荡检测器，单位为米
+   oscillation_reset_dist: 0.05
+   # 是否发布代价网格点云：用于可视化代价地图，若为true，发布代价网格点云
+   publish_cost_grid_pc: false
+   # 是否修剪路径：移除已经通过的路径点，减少路径点数量
+   prune_plan: true
+
+   # 模拟时间：前向模拟的时间长度，影响轨迹预测的范围，单位为秒
+   sim_time: 1.0
+   # 模拟粒度：轨迹采样的空间分辨率，单位为米
+   sim_granularity: 0.025
+   # 角度模拟粒度：轨迹采样的角度分辨率，单位为弧度
+   angular_sim_granularity: 0.025
+   # X方向速度采样点数：生成可能轨迹时的速度采样数量
+   vx_samples: 8
+   # Y方向速度采样点数：生成可能轨迹时的速度采样数量，对差速驱动机器人设为0
+   vy_samples: 0 # 对于差速驱动机器人设为0
+   # 角速度采样点数：生成旋转轨迹时的角速度采样数量
+   vtheta_samples: 20
+   # 是否使用DWA算法：动态窗口方法进行局部路径规划
+   dwa: true
+   # 是否使用简单吸引器：简化的目标吸引机制，若为true，使用简单吸引器
+   simple_attractor: false

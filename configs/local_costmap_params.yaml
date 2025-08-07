@@ -1,0 +1,19 @@
+local_costmap:  # 局部代价地图配置
+#   global_frame: /odom  # 全局坐标系: 局部代价地图的参考坐标系
+   global_frame: /odom_combined  # 全局坐标系: 局部代价地图的参考坐标系，使用组合里程计
+   robot_base_frame: /base_footprint  # 机器人基础坐标系: 机器人基础参考坐标系
+   update_frequency: 3.0  # 更新频率: 代价地图更新的频率，单位为赫兹
+   publish_frequency: 1.0  # 发布频率: 代价地图发布的频率，单位为赫兹
+   static_map: false  # 静态地图: 局部代价地图不使用静态地图
+   rolling_window: true  # 滚动窗口: 使用滚动窗口模式，代价地图跟随机器人移动
+   width: 3.0  # 宽度: 局部代价地图的宽度，单位为米
+   height: 3.0  # 高度: 局部代价地图的高度，单位为米
+   resolution: 0.05  # 分辨率: 代价地图的分辨率，每个单元格的大小，单位为米
+   transform_tolerance: 1.0  # 转换容差: 代价地图转换的时间容差，单位为秒
+   map_type: costmap  # 地图类型: 使用costmap类型的地图
+
+   plugins:  # 插件: 代价地图使用的插件列表
+     - {name: static_layer,        type: "costmap_2d::StaticLayer"}  # 静态层: 处理静态地图信息
+     - {name: obstacle_layer,      type: "costmap_2d::VoxelLayer"}  # 障碍物层: 处理障碍物信息，使用体素表示
+     - {name: virtualWall_layer,   type: "costmap_2d::VirtualWallLayer"}  # 虚拟墙层: 处理虚拟墙信息
+     - {name: inflation_layer,     type: "costmap_2d::InflationLayer"}  # 膨胀层: 对障碍物进行膨胀，以保持安全距离

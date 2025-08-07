@@ -1,0 +1,79 @@
+TebLocalPlannerROS:
+
+ odom_topic: odom  # 里程计话题: 接收机器人位置和速度信息的话题名称
+ map_frame: /odom_combined  # 地图坐标系: 用于规划的参考坐标系
+
+ # 轨迹相关参数
+ 
+ teb_autosize: True  # 轨迹自动调整大小: 自动调整轨迹点的数量
+ dt_ref: 0.7  # 参考时间间隔: 轨迹点之间的参考时间间隔，单位为秒
+ dt_hysteresis: 0.1  # 时间间隔滞后: 允许的时间间隔偏差
+ global_plan_overwrite_orientation: True  # 全局计划覆盖方向: 用全局路径的方向覆盖局部路径点的方向
+ max_global_plan_lookahead_dist: 0.5   #1.0  # 全局计划最大前视距离: 从全局路径中提取的最大前视距离，单位为米
+ force_reinit_new_goal_dist: 1.0  # 强制重新初始化的新目标距离: 当新目标与之前的目标距离超过此值时，强制重新初始化规划器
+ feasibility_check_no_poses: 5  # 可行性检查的姿态数: 每次迭代中检查可行性的姿态数量
+ exact_arc_length: true  # 精确弧长: 使用精确的弧长计算而非欧几里得近似
+
+ # 机器人参数
+
+ max_vel_x: 0.45  # 最大X方向速度: 机器人前进的最大速度，单位为米/秒 default: 0.4
+ max_vel_x_backwards: 0.15  # 最大X方向后退速度: 机器人后退的最大速度，单位为米/秒 default: 0.15
+ max_vel_theta: 0.22  # 最大角速度: 机器人旋转的最大角速度，单位为弧度/秒 default: 0.22
+ acc_lim_x: 0.30  # X方向加速度限制: 机器人在X方向的最大加速度，单位为米/秒²
+ acc_lim_theta: 0.5  # 角加速度限制: 机器人旋转的最大角加速度，单位为弧度/秒²
+ min_turning_radius: 0.0  # 最小转弯半径: 机器人的最小转弯半径，0表示可以原地旋转
+ footprint_model:  # 足迹模型: 定义机器人的几何形状，用于避障
+  #  radius: 0.05  # 半径: 圆形足迹模型的半径
+#   vertices: [[-0.3, -0.3], [-0.3, 0.3],[0.3, 0.3], [0.3, -0.3]]  # 顶点: 矩形足迹模型的顶点坐标
+#   vertices: [[-0.303, -0.225], [-0.303, 0.225],[0.098, 0.225], [0.098, -0.225]]  # 顶点: 矩形足迹模型的顶点坐标
+   vertices: [[-0.35, -0.225], [-0.35, 0.225],[0.06, 0.225], [0.06, -0.225]]  # 顶点: 矩形足迹模型的顶点坐标，定义机器人的轮廓
+  #  vertices: [[-2.80, -0.225], [-2.80, 0.225],[-2.15, 0.225], [-2.15, -0.225]]  # 顶点: 矩形足迹模型的顶点坐标，定义机器人的轮廓
+ # 目标容差
+ decel_width: 0.5  # 减速宽度: 接近目标点时的减速区域宽度 default: 0.1
+ 
+ xy_goal_tolerance: 0.008  # XY平面位置目标容差: 到达目标点的精度要求，单位为米 default: 0.05
+ yaw_goal_tolerance: 0.015  # 偏航角目标容差: 到达目标点时朝向的精度要求，单位为弧度 default 0.1
+ free_goal_vel: False  # 自由目标速度: 是否允许机器人到达目标时保持速度
+
+ # 障碍物参数
+
+ min_obstacle_dist: 0.175  # 最小障碍物距离: 机器人与障碍物之间的最小允许距离，单位为米 default: 0.31
+ include_costmap_obstacles: True  # 包含代价地图障碍物: 是否考虑代价地图中的障碍物
+ costmap_obstacles_behind_robot_dist: 1.0  # 机器人后方代价地图障碍物距离: 考虑机器人后方多远范围内的障碍物，单位为米
+ obstacle_poses_affected: 7  # 受影响的障碍物姿态数: 每个障碍物影响的轨迹姿态数量
+ costmap_converter_plugin: ""  # 代价地图转换器插件: 用于将代价地图转换为几何图形的插件名称
+ costmap_converter_spin_thread: True  # 代价地图转换器独立线程: 是否在单独的线程中运行代价地图转换器
+ costmap_converter_rate: 5  # 代价地图转换器频率: 代价地图转换的频率，单位为赫兹
+
+ # 优化参数
+
+ no_inner_iterations: 5  # 内部迭代次数: 每次外部迭代中的内部优化迭代次数
+ no_outer_iterations: 4  # 外部迭代次数: 整个优化过程的外部迭代次数
+ optimization_activate: True  # 激活优化: 是否启用轨迹优化
+ optimization_verbose: False  # 优化详细输出: 是否输出优化过程的详细信息
+ penalty_epsilon: 0.1  # 惩罚系数: 软约束违反的惩罚系数
+ weight_max_vel_x: 1  # 最大X速度权重: 最大速度约束的权重
+ weight_max_vel_theta: 1  # 最大角速度权重: 最大角速度约束的权重
+ weight_acc_lim_x: 1  # X加速度限制权重: 加速度约束的权重
+ weight_acc_lim_theta: 1  # 角加速度限制权重: 角加速度约束的权重
+ weight_kinematics_nh: 1500  # 非全向运动学约束权重: 非全向机器人运动学约束的权重 default: 1000
+ weight_kinematics_forward_drive: 200  # 前向运动学约束权重: 前向运动约束的权重 default: 100
+ weight_kinematics_turning_radius: 1  # 转弯半径运动学约束权重: 转弯半径约束的权重
+ weight_optimaltime: 1  # 最优时间权重: 优化轨迹时间的权重
+ weight_obstacle: 50  # 障碍物权重: 避障约束的权重
+ weight_dynamic_obstacle: 10 # 动态障碍物权重: 避开动态障碍物约束的权重（尚未使用）
+ selection_alternative_time_cost: True # 选择替代时间代价: 是否使用替代的时间代价函数（尚未使用） default: False
+
+ # 同伦类规划器参数
+
+ enable_homotopy_class_planning: False  # 启用同伦类规划: 是否启用同伦类路径规划
+ enable_multithreading: True  # 启用多线程: 是否使用多线程加速计算
+ simple_exploration: False  # 简单探索: 是否使用简化的同伦类探索算法
+ max_number_classes: 4  # 最大类别数: 考虑的同伦类的最大数量
+ roadmap_graph_no_samples: 15  # 路线图图中的样本数: 路线图算法中使用的随机样本数量
+ roadmap_graph_area_width: 5  # 路线图图区域宽度: 路线图覆盖的区域宽度
+ h_signature_prescaler: 0.5  # H签名预缩放器: H签名计算的预缩放系数
+ h_signature_threshold: 0.1  # H签名阈值: 区分不同同伦类的H签名阈值
+ obstacle_keypoint_offset: 0.1  # 障碍物关键点偏移: 障碍物轮廓提取时的关键点偏移量
+ obstacle_heading_threshold: 0.45  # 障碍物方向阈值: 障碍物朝向识别的阈值
+ visualize_hc_graph: False  # 可视化同伦类图: 是否可视化同伦类图

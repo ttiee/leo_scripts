@@ -1,0 +1,72 @@
+origin:
+  orientation_w: 0.6612064909594698
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: -0.7502039564765469
+  timestamp: 1711676400.0
+  x: 0.802131322674586
+  y: 0.7624689184994344
+  z: 0.13799999999999996
+安徽:
+  orientation_w: 0.7083524776131158
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: -0.7058588863642365
+  timestamp: 1711676400.0
+  x: 2.161354319658563
+  y: 0.7188678488951593
+  z: 0.138
+浙江:
+  orientation_w: 0.6806707565052216
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: -0.7325894629590364
+  timestamp: 1711676430.0
+  x: -0.4548161777294822
+  y: 1.1193867208635782
+  z: 0.138
+湖南:
+  orientation_w: 0.6775032800419787
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: -0.7355197519661592
+  timestamp: 1711676460.0
+  x: 0.1804821004795273
+  y: 1.064585751197194
+  z: 0.138
+福建:
+  orientation_w: 0.6883009255545651
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: -0.7254252793229148
+  timestamp: 1711676490.0
+  x: 1.5143390476976168
+  y: 0.7897779844869287
+  z: 0.13799999999999998
+货架1.1:
+  orientation_w: 0.9999447284790014
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: -0.010513799839073842
+  timestamp: 1711676400.0
+  x: -0.0017961602596932025
+  y: 0.10675028367379213
+  z: 0.13799999999999998
+货架1.2:
+  orientation_w: 0.9971604583909195
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: -0.07530617651701178
+  timestamp: 1711676400.0
+  x: -0.08476584782271085
+  y: -0.05539672629488335
+  z: 0.13800000000000004
+货架二:
+  orientation_w: 0.7445870620738787
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: 0.6675253605610725
+  timestamp: 1711676400.0
+  x: 0.46073103220445244
+  y: -1.70149184620126
+  z: 0.13799999999999998

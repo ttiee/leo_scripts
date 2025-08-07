@@ -1,0 +1,26 @@
+# 全局路径规划器选择 Planner selection
+base_global_planner: "global_planner/GlobalPlanner"
+
+# 局部路径规划器选择
+base_local_planner: "teb_local_planner/TebLocalPlannerROS"
+
+# 全局规划器参数配置 Also see: http://wiki.ros.org/global_planner
+GlobalPlanner:
+  # 是否完全模仿navfn的行为，若为true则使用其他参数的默认值 # Exactly mirror behavior of navfn, use defaults for other boolean parameters, default false
+  old_navfn_behavior: false
+  # 是否使用势场的二次近似，若为false则使用更简单的计算方法 # Use the quadratic approximation of the potential. Otherwise, use a simpler calculation, default true
+  use_quadratic: true
+  # 是否使用Dijkstra算法，若为false则使用A*算法 # Use dijkstra's algorithm. Otherwise, A*, default true
+  use_dijkstra: true
+  # 是否创建沿着网格边界的路径，若为false则使用梯度下降法 # Create a path that follows the grid boundaries. Otherwise, use a gradient descent method, default false
+  use_grid_path: false
+  
+  # 是否允许规划器规划穿过未知区域的路径 # Allow planner to plan through unknown space, default true
+  allow_unknown: false
+  # 规划器窗口X方向大小，0表示使用costmap大小 # default 0.0
+  planner_window_x: 0.0
+  # 规划器窗口Y方向大小，0表示使用costmap大小 # default 0.0
+  planner_window_y: 0.0
+  # 如果目标点在障碍物中，规划到该半径内最近的点 # If goal in obstacle, plan to the closest point in radius default_tolerance, default 0.0
+  default_tolerance: 0.0
+

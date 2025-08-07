@@ -1,0 +1,45 @@
+安徽:
+  orientation_w: 0.9997869035827467
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: -0.020643338499948927
+  timestamp: 1711676400.0
+  x: 0.05069386150255806
+  y: 1.9230165228151503
+  z: 0.13799999999999998
+浙江:
+  orientation_w: 0.9986481275605169
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: 0.051979970371994935
+  timestamp: 1711676430.0
+  x: 0.06312908602861556
+  y: -0.6228474663704775
+  z: 0.138
+湖南:
+  orientation_w: 0.999974261863481
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: 0.007174650554985508
+  timestamp: 1711676460.0
+  x: 0.10684572031215
+  y: 0.004714319010498347
+  z: 0.138
+福建:
+  orientation_w: 0.9999643328788923
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: -0.00844588480100267
+  timestamp: 1711676490.0
+  x: 0.10399923209439221
+  y: 1.316266345899077
+  z: 0.13799999999999998
+货架一:
+  orientation_w: 0.7035103761929589
+  orientation_x: 0.0
+  orientation_y: 0.0
+  orientation_z: 0.7106849868885944
+  timestamp: 1711676400.0
+  x: 1.003763533369558
+  y: -0.07706578837101996
+  z: 0.13800000000000007

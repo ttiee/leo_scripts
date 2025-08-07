@@ -1,0 +1,145 @@
+# 机器人足迹(轮廓)定义，按逆时针顺序定义多边形顶点坐标(米)
+#footprint: [[-0.3, -0.3], [-0.3, 0.3],[0.3, 0.3], [0.3, -0.3]]
+#robot_radius: 0.30
+#footprint: [[-0.189, -0.225], [-0.189, 0.225],[0.189, 0.225], [0.189, -0.225]]
+#footprint: [[-0.303, -0.225], [-0.303, 0.225],[0.098, 0.225], [0.098, -0.225]]
+footprint: [[-0.35, -0.225], [-0.35, 0.225],[0.06, 0.225], [0.06, -0.225]]
+
+# 障碍物层配置
+obstacle_layer:
+  # 是否启用障碍物层
+  enabled: true
+  # 考虑的障碍物最大高度(米)
+  max_obstacle_height: 1.2
+  # 考虑的障碍物最小高度(米)
+  min_obstacle_height: 0.0
+  # 障碍物探测范围(米)，超出此范围的障碍物将被忽略
+  obstacle_range: 2.0
+  # 光线追踪范围(米)，用于清除移动的障碍物
+  raytrace_range: 5.0
+  # 障碍物膨胀半径(米)，为确保安全，障碍物会被膨胀这个尺寸
+  inflation_radius: 0.33
+  # 障碍物合并方法：0=覆盖，1=最大值，99=障碍物势场叠加(最常用)
+  combination_method: 1
+  # 传感器数据源列表，包括各种激光雷达和深度相机
+  observation_sources: laser_scan_sensor laser_scan_sensor_2 laser_scan_sensor_3 camera_depth #sonar_scan_sensor 
+  # 跟踪未知空间
+  track_unknown_space: true
+ 
+  # 体素Z轴起始高度(米)
+  origin_z: 0.0
+  # Z轴分辨率(米)
+  z_resolution: 0.1
+  # Z轴体素数量
+  z_voxels: 10
+  # 未知阈值：多少体素为未知时认为整列为未知
+  unknown_threshold: 15
+  # 标记阈值：多少体素为占用时认为整列被占用
+  mark_threshold: 0
+  # 是否发布体素地图可视化
+  publish_voxel_map: true
+  # 是否启用足迹清除功能，防止机器人自身被当作障碍物
+  footprint_clearing_enabled: true
+  # 观测持久时间(秒)，0表示只考虑最新观测
+  observation_persistence: 0.0
+#expected_update_rate: 0.2
+
+  # 第二个激光扫描传感器配置
+  laser_scan_sensor_2:
+    # 数据类型：LaserScan(激光扫描)
+    data_type: LaserScan
+    # 订阅的ROS话题
+    topic: /scan_2
+    # 是否标记障碍物
+    marking: true
+    # 是否清除障碍物
+    clearing: true
+    # 预期更新率，0表示不检查更新率
+    expected_update_rate: 0
+    # 考虑的障碍物最小高度(米)
+    min_obstacle_height: 0.01
+    # 考虑的障碍物最大高度(米)
+    max_obstacle_height: 0.1
+
+  # 声纳传感器配置
+  sonar_scan_sensor:
+    # 数据类型：点云数据
+    data_type: PointCloud2
+    # 订阅的ROS话题
+    topic: /sonar_cloudpoint
+    # 是否标记障碍物
+    marking: true
+    # 是否清除障碍物
+    clearing: true
+    # 障碍物高度范围(米)
+    min_obstacle_height: 0.11
+    max_obstacle_height: 0.2
+
+  # 主激光扫描传感器配置
+  laser_scan_sensor:
+    data_type: LaserScan
+    topic: /scan
+    marking: true
+    clearing: true
+    expected_update_rate: 0
+    min_obstacle_height: 0.21
+    max_obstacle_height: 0.30
+
+  # 第三个激光扫描传感器配置
+  laser_scan_sensor_3:
+    data_type: LaserScan
+    topic: /scan_3
+    marking: true
+    clearing: true
+    expected_update_rate: 0
+    min_obstacle_height: 0.31
+    max_obstacle_height: 0.40
+
+  # 深度相机配置
+  camera_depth:
+    data_type: PointCloud2
+    # 深度点云话题
+    topic:  /camera/depth/points   #/camera/depth/points #_filtered
+    marking: ture
+    clearing: true
+    # 相机感知的高度范围，通常设置较高以检测高处障碍物
+    min_obstacle_height: 0.51
+    max_obstacle_height: 1.4
+    
+# 膨胀层配置
+inflation_layer:
+  # 是否启用膨胀层
+  enabled:              true
+  # 代价缩放因子，决定了障碍物代价随距离衰减的速率，值越大衰减越快
+  cost_scaling_factor:  10.0  # exponential rate at which the obstacle cost drops off (default: 10)
+  # 膨胀半径(米)，规划时与障碍物保持的最小安全距离
+  inflation_radius:     0.33 # max. distance from an obstacle at which costs are incurred for planning paths.
+
+# 静态层配置
+static_layer:
+  # 是否启用静态层
+  enabled:              true
+  # 静态地图话题
+  map_topic:            "/map"
+
+# 虚拟墙层配置
+virtualWall_layer:
+  # 是否启用虚拟墙
+  enabled:              true
+  # 虚拟墙点云话题，用于添加人为设定的障碍区域
+  topic:  "/virtualWall_cloudPoint"
+  # 地图话题
+  map_topic:            "/map"
+
+# 声纳层配置
+sonar_layer:
+  # 是否启用声纳层
+  enabled:            true
+  # 清除阈值：低于此值的读数视为空闲空间
+  clear_threshold:    0.2
+  # 标记阈值：高于此值的读数视为障碍物
+  mark_threshold:     0.8
+  # 声纳传感器话题列表
+  topics: ["/sonar0", "/sonar1"]  #, "/sonar2", "/sonar3", "/sonar4"]
+  # 是否在最大读数时清除：当声纳返回最大读数时，认为路径是通畅的
+  clear_on_max_reading: true

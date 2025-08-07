@@ -1,0 +1,28 @@
+# 是否跟踪未知空间，true表示会记录哪些区域尚未探索
+track_unknown_space: true
+# 全局坐标系，用于探索时的参考框架
+global_frame: map
+# 是否使用滚动窗口，false表示固定地图大小
+rolling_window: false
+
+# 探索使用的代价地图插件列表
+plugins: 
+# 外部静态层：加载外部地图数据
+- {name: external,            type: "costmap_2d::StaticLayer"}
+# 边界探索层：处理探索边界相关的决策
+- {name: explore_boundary,    type: "frontier_exploration::BoundedExploreLayer"}
+# 激光雷达障碍物层：可以禁用如果gmapping更新速度足够快
+#Can disable sensor layer if gmapping is fast enough to update scans
+- {name: obstacles_laser,     type: "costmap_2d::ObstacleLayer"}
+# 膨胀层：对障碍物进行膨胀处理
+- {name: inflation,           type: "costmap_2d::InflationLayer"}
+
+# 边界探索参数配置
+explore_boundary:
+  # 是否调整大小以匹配边界
+  resize_to_boundary: true
+  # 前沿探索点的选择策略，middle表示选择中间点
+  frontier_travel_point: middle
+  # 是否清除已知空间重新探索，gmapping设为false，在已知区域重新探索时设为true
+  #set to false for gmapping, true if re-exploring a known area
+  explore_clear_space: false
